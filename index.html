@@ -132,7 +132,7 @@ ul.lists .del{border:none;background:none;color:var(--err);border-radius:0}
 <dialog id="settings"><form method="dialog" class="in">
   <h2>Einstellungen</h2>
   <label class="f" for="sMail">E-Mail-Adresse für die Liste</label>
-  <input type="email" id="sMail" placeholder="ipads@wilhelm-remy-gymnasium.de" autocomplete="off">
+  <input type="email" id="sMail" placeholder="ipad@wilhelm-remy-gymnasium.de" autocomplete="off">
   <label class="f" for="sSubj">Betreff</label>
   <input type="text" id="sSubj">
   <div class="hint">{liste} wird durch den Namen der Liste ersetzt, {datum} durch das heutige Datum, {anzahl} durch die Anzahl.</div>
@@ -161,8 +161,10 @@ const KEY = "ipadscanner.";
 const load = (k, d) => { try { const v = localStorage.getItem(KEY + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
 const save = (k, v) => { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch {} };
 
-const STANDARD_MAIL = "ipads@wilhelm-remy-gymnasium.de";
+const STANDARD_MAIL = "ipad@wilhelm-remy-gymnasium.de";
 const cfg = Object.assign({ mail: STANDARD_MAIL, subj: "iPad-Ausgabe {liste} ({anzahl} iPads)", sep: "nl", pre: "", strip: "", sound: true }, load("cfg2", {}));
+// frühere, falsche Standard-Adresse auf diesem Handy ersetzen
+if (/^ipads@wilhelm-remy-gymnasium\.de$/i.test(cfg.mail)) { cfg.mail = STANDARD_MAIL; save("cfg2", cfg); }
 // Mehrere Listen: [{id, name, t, items: [{code, raw, t}]}]; die zuletzt benutzte ist offen
 let lists = load("lists", []);
 let cur = lists.find(l => l.id === load("cur", "")) || null;
